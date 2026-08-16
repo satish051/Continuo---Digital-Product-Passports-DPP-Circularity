@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Continuo - Digital Product Passports & Circularity</title>
+    
+    <!-- Tab Icon (Favicon) -->
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/hdakk4bs/image/upload/v1786708197/Gemini_Generated_Image_fgdutwfgdutwfgdu-removebg-preview1_l19xz4.png">
+    
+    <!-- Bootstrap CSS (Tracking Prevention attributes removed) -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css">
+    
+    <!-- Premium Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            /* Continuo Brand Colors */
+            --brand-green: #71c36b;
+            --brand-blue: #2a75b8;
+            --brand-gradient: linear-gradient(135deg, var(--brand-green) 0%, var(--brand-blue) 100%);
+            --brand-gradient-hover: linear-gradient(135deg, #5eb058 0%, #22629b 100%);
+            --text-dark: #1a202c;
+            --text-muted: #718096;
+            --bg-light: #f8fafc;
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.4);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-dark);
+            background-color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6, .navbar-brand {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        /* --- Global Utilities --- */
+        .text-gradient {
+            background: var(--brand-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .bg-gradient-brand {
+            background: var(--brand-gradient);
+            color: white;
+        }
+
+        .btn-gradient {
+            background: var(--brand-gradient);
+            color: white;
+            border: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(42, 117, 184, 0.2);
+        }
+
+        .btn-gradient:hover {
+            background: var(--brand-gradient-hover);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(42, 117, 184, 0.3);
+        }
+
+        /* --- Animations --- */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 0 0 rgba(113, 195, 107, 0.4); }
+            70% { box-shadow: 0 0 0 20px rgba(113, 195, 107, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(113, 195, 107, 0); }
+        }
+
+        @keyframes scanline {
+            0% { top: 0; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* --- Glassmorphism Elements --- */
+        .glass-nav {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .feature-card {
+            background: #ffffff;
+            border: 1px solid rgba(0,0,0,0.05);
+            border-radius: 1.25rem;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            height: 100%;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(42, 117, 184, 0.12);
+            border-color: rgba(113, 195, 107, 0.3);
+        }
+
+        /* --- Custom Hero Illustration --- */
+        .hero-section {
+            position: relative;
+            padding: 10rem 0 6rem;
+            background: radial-gradient(circle at top right, rgba(113, 195, 107, 0.08), transparent 40%),
+                        radial-gradient(circle at bottom left, rgba(42, 117, 184, 0.08), transparent 40%);
+        }
+
+        .dpp-card-illustration {
+            width: 100%;
+            max-width: 380px;
+            min-height: 480px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            position: relative;
+            overflow: hidden;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .dpp-card-illustration::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 6px;
+            background: var(--brand-gradient);
+        }
+
+        .qr-mockup {
+            width: 180px;
+            height: 180px;
+            background: #f1f5f9;
+            border-radius: 16px;
+            margin: 30px 0;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            color: var(--brand-blue);
+            overflow: hidden;
+        }
+
+        .scanner-line {
+            position: absolute;
+            width: 100%;
+            height: 4px;
+            background: var(--brand-green);
+            box-shadow: 0 0 15px var(--brand-green);
+            animation: scanline 3s linear infinite;
+        }
+
+        .data-row {
+            width: 100%;
+            height: 12px;
+            background: #e2e8f0;
+            border-radius: 6px;
+            margin-bottom: 12px;
+        }
+
+        .data-row:nth-child(1) { width: 60%; background: var(--brand-green); opacity: 0.8; }
+        .data-row:nth-child(2) { width: 85%; }
+        .data-row:nth-child(3) { width: 40%; }
+        
+        /* --- Icon Boxes --- */
+        .icon-box {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 70px;
+            height: 70px;
+            border-radius: 20px;
+            background: var(--bg-light);
+            margin-bottom: 1.5rem;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover .icon-box {
+            background: var(--brand-gradient);
+            transform: scale(1.1) rotate(-5deg);
+        }
+
+        .icon-box i {
+            font-size: 2rem;
+            background: var(--brand-gradient);
+            -webkit-background-clip-clip: text;
+            -webkit-text-fill-color: transparent;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover .icon-box i {
+            background: none;
+            -webkit-text-fill-color: white;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Transparent Glass Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top glass-nav py-3">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center text-decoration-none" href="#">
+                <!-- Cloudinary Brand Logo -->
+                <img src="https://res.cloudinary.com/hdakk4bs/image/upload/v1786708197/Gemini_Generated_Image_fgdutwfgdutwfgdu-removebg-preview1_l19xz4.png" alt="Continuo Logo" style="height: 50px; width: auto;" class="me-2">
+                <!-- Brand Name text (Fixed to display on mobile) -->
+                <div class="d-flex flex-column lh-1 ms-1">
+                    <span class="fw-bold fs-4 text-dark mb-0">Continuo</span>
+                    <span class="d-none d-md-block text-muted fw-medium mt-1" style="font-size: 0.65rem; letter-spacing: 0.5px;">DIGITAL PRODUCT PASSPORTS & CIRCULARITY</span>
+                </div>
+            </a>
+            <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <i class="bi bi-list fs-1 text-dark"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link px-3 fw-medium" href="#platform">Platform</a></li>
+                    <li class="nav-item"><a class="nav-link px-3 fw-medium" href="#compliance">ESPR Compliance</a></li>
+                    <li class="nav-item"><a class="nav-link px-3 fw-medium" href="#circularity">Circularity</a></li>
+                    <li class="nav-item ms-lg-4 mt-3 mt-lg-0">
+                        <a class="btn btn-gradient px-5 py-2.5 rounded-pill fw-bold" href="#contact">Request Demo</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Interactive Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-5 mb-lg-0 text-center text-lg-start position-relative z-1">
+                    <div class="d-inline-flex align-items-center bg-white border rounded-pill px-3 py-2 mb-4 shadow-sm" style="animation: pulse-glow 2s infinite;">
+                        <span class="badge bg-success rounded-circle p-1 me-2"><i class="bi bi-check2"></i></span>
+                        <span class="small fw-bold text-dark">ESPR Regulation Ready for 2026</span>
+                    </div>
+                    
+                    <h1 class="display-3 fw-extrabold mb-4 lh-sm">
+                        Unlock Circularity with <br />
+                        <span class="text-gradient">Digital Product Passports</span>
+                    </h1>
+                    <p class="lead text-muted mb-5 pe-lg-5 fs-5">
+                        Continuo provides the secure, beautiful infrastructure to digitize your products, prove sustainability claims, and connect with modern consumers.
+                    </p>
+                    <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center justify-content-lg-start">
+                        <a href="#platform" class="btn btn-gradient btn-lg px-5 py-3 rounded-pill fw-bold">Explore Platform</a>
+                        <a href="#about-dpp" class="btn btn-light border btn-lg px-5 py-3 rounded-pill fw-bold text-dark shadow-sm">What is a DPP?</a>
+                    </div>
+                </div>
+                
+                <!-- Custom CSS Illustration -->
+                <div class="col-lg-6">
+                    <div class="floating">
+                        <div class="dpp-card-illustration">
+                            <div class="w-100 d-flex justify-content-between align-items-center mb-2">
+                                <!-- Cloudinary Logo in Card -->
+                                <img src="https://res.cloudinary.com/hdakk4bs/image/upload/v1786708197/Gemini_Generated_Image_fgdutwfgdutwfgdu-removebg-preview1_l19xz4.png" alt="Continuo Logo" style="height: 35px; width: auto;">
+                                <span class="badge bg-light text-muted border">ID: CNT-8921</span>
+                            </div>
+                            <h4 class="fw-bold mt-2 align-self-start">Eco-Sneaker V2</h4>
+                            <p class="small text-muted align-self-start mb-0">Verified Origin: Portugal</p>
+                            
+                            <div class="qr-mockup shadow-sm">
+                                <i class="bi bi-qr-code"></i>
+                                <div class="scanner-line"></div>
+                            </div>
+                            
+                            <div class="w-100 mt-2">
+                                <p class="small fw-bold mb-2">Material Breakdown</p>
+                                <div class="data-row"></div>
+                                <div class="data-row"></div>
+                                <div class="data-row"></div>
+                            </div>
+                            
+                            <div class="mt-auto pt-3 w-100 bg-light rounded p-3 text-center border">
+                                <i class="bi bi-recycle text-success fs-4 mb-1 d-block"></i>
+                                <span class="small fw-bold text-success">100% Recyclable</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Public Education Section -->
+    <section id="about-dpp" class="py-6 bg-light" style="padding-top: 5rem; padding-bottom: 5rem;">
+        <div class="container">
+            <div class="row justify-content-center text-center mb-5">
+                <div class="col-lg-8">
+                    <h2 class="display-6 fw-bold mb-3">Transparency from Origin to End-of-Life</h2>
+                    <p class="text-muted fs-5">A Digital Product Passport acts as a secure digital twin for your physical goods, accessible instantly via a smartphone scan.</p>
+                </div>
+            </div>
+            <div class="row g-4 text-start">
+                <div class="col-md-4">
+                    <div class="p-5 feature-card">
+                        <h1 class="display-4 fw-bold text-gradient mb-4 opacity-75">01</h1>
+                        <h4 class="fw-bold mb-3">For Brands</h4>
+                        <p class="text-muted">Streamline supply chain data, easily prove your sustainability claims, and prepare seamlessly for mandatory European regulations.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="p-5 feature-card" style="border: 2px solid var(--brand-blue); transform: translateY(-10px); box-shadow: 0 20px 40px rgba(42, 117, 184, 0.1);">
+                        <h1 class="display-4 fw-bold text-gradient mb-4 opacity-75">02</h1>
+                        <h4 class="fw-bold mb-3">For Consumers</h4>
+                        <p class="text-muted">Scan a simple QR code to access repair manuals, recycling instructions, and verified authenticity data before making a purchase.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="p-5 feature-card">
+                        <h1 class="display-4 fw-bold text-gradient mb-4 opacity-75">03</h1>
+                        <h4 class="fw-bold mb-3">For the Planet</h4>
+                        <p class="text-muted">Extend product lifespans, maximize material recovery, and eliminate waste by designing ecosystems for true, verifiable circularity.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="platform" class="py-5" style="padding-top: 6rem; padding-bottom: 6rem;">
+        <div class="container">
+            <div class="row mb-5 align-items-end">
+                <div class="col-lg-7">
+                    <span class="text-uppercase fw-bold text-primary tracking-wide mb-2 d-block" style="color: var(--brand-blue) !important;">Continuo Platform</span>
+                    <h2 class="display-5 fw-bold mb-0">The Operating System for the Circular Economy</h2>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3">
+                    <div class="p-4 feature-card">
+                        <div class="icon-box">
+                            <i class="bi bi-fingerprint"></i>
+                        </div>
+                        <h5 class="fw-bold mb-3">Unique Identities</h5>
+                        <p class="text-muted small">Generate cryptographically secure identities for product batches or individual items using dynamic QR codes or NFC.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="p-4 feature-card">
+                        <div class="icon-box">
+                            <i class="bi bi-shield-check"></i>
+                        </div>
+                        <h5 class="fw-bold mb-3">Immutable Audits</h5>
+                        <p class="text-muted small">Ensure complete data integrity. Instantly prove compliance to regulatory bodies, auditors, and international customs.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="p-4 feature-card">
+                        <div class="icon-box">
+                            <i class="bi bi-diagram-3"></i>
+                        </div>
+                        <h5 class="fw-bold mb-3">Supply Chain Maps</h5>
+                        <p class="text-muted small">Connect Tier 1 to Tier N suppliers. Aggregate material declarations and carbon footprints in one centralized hub.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="p-4 feature-card">
+                        <div class="icon-box">
+                            <i class="bi bi-arrow-repeat"></i>
+                        </div>
+                        <h5 class="fw-bold mb-3">Lifecycle Tracking</h5>
+                        <p class="text-muted small">Update the passport during repair, resale, or refurbishment to maintain a living history of the product.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Deep Dive: Compliance -->
+    <section id="compliance" class="py-5 bg-gradient-brand position-relative overflow-hidden">
+        <div style="position:absolute; top:-50%; right:-10%; width: 800px; height: 800px; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%); border-radius: 50%;"></div>
+        
+        <div class="container py-5 position-relative z-1">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-5 mb-lg-0 text-center text-lg-start">
+                    <span class="badge bg-white text-dark mb-3 px-3 py-2 rounded-pill fw-bold shadow-sm">ESPR Ready</span>
+                    <h2 class="display-5 fw-bold mb-4">Turn Compliance into a Competitive Edge</h2>
+                    <p class="fs-5 mb-5 text-white opacity-75">
+                        Don't just meet regulations—use transparency to build profound brand trust. With Continuo, your product's journey becomes your most powerful marketing tool. 
+                    </p>
+                    <div class="d-flex flex-column gap-3">
+                        <div class="d-flex align-items-center bg-white bg-opacity-10 p-3 rounded-3 border border-white border-opacity-25">
+                            <i class="bi bi-check-circle-fill text-white fs-4 me-3"></i> 
+                            <span class="fs-5 fw-medium">Ecodesign for Sustainable Products Regulation</span>
+                        </div>
+                        <div class="d-flex align-items-center bg-white bg-opacity-10 p-3 rounded-3 border border-white border-opacity-25">
+                            <i class="bi bi-check-circle-fill text-white fs-4 me-3"></i> 
+                            <span class="fs-5 fw-medium">EU Battery Regulation Compliant</span>
+                        </div>
+                        <div class="d-flex align-items-center bg-white bg-opacity-10 p-3 rounded-3 border border-white border-opacity-25">
+                            <i class="bi bi-check-circle-fill text-white fs-4 me-3"></i> 
+                            <span class="fs-5 fw-medium">Textiles & Consumer Electronics Traceability</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5 offset-lg-1">
+                    <div class="bg-white p-5 rounded-4 shadow-lg text-center text-dark" style="transform: rotate(2deg); transition: transform 0.3s ease;">
+                        <div style="width: 80px; height: 80px; background: var(--bg-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem auto;">
+                            <i class="bi bi-globe-americas display-4 text-gradient"></i>
+                        </div>
+                        <h3 class="fw-bold mb-3">Global Infrastructure</h3>
+                        <p class="text-muted mb-4 fs-6">Hosted on enterprise-grade cloud infrastructure ensuring instant data retrieval anywhere in the world, with strict data sovereignty controls.</p>
+                        <a href="#contact" class="btn btn-dark w-100 rounded-pill py-3 fw-bold fs-5 shadow-sm">Start Integrating Today</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Circularity Section -->
+    <section id="circularity" class="py-5" style="padding-top: 6rem; padding-bottom: 6rem;">
+        <div class="container">
+            <div class="row mb-5 text-center justify-content-center">
+                <div class="col-lg-8">
+                    <span class="text-uppercase fw-bold tracking-wide mb-2 d-block" style="color: var(--brand-green);">The Circular Loop</span>
+                    <h2 class="display-5 fw-bold mb-3">Designing for the Next Lifecycle</h2>
+                    <p class="lead text-muted">
+                        A Digital Product Passport doesn't just track data—it actively enables a circular economy by connecting stakeholders at every stage of a product's life.
+                    </p>
+                </div>
+            </div>
+
+            <div class="row g-4 position-relative">
+                <div class="d-none d-lg-block position-absolute" style="top: 50%; left: 10%; right: 10%; height: 2px; background: linear-gradient(90deg, var(--brand-green), var(--brand-blue)); z-index: 0; opacity: 0.2; transform: translateY(-50%);"></div>
+
+                <div class="col-lg-4 position-relative z-1">
+                    <div class="p-4 feature-card text-center bg-white h-100">
+                        <div class="icon-box mx-auto" style="width: 80px; height: 80px; border-radius: 50%; box-shadow: 0 10px 20px rgba(113, 195, 107, 0.15);">
+                            <i class="bi bi-palette2"></i>
+                        </div>
+                        <h4 class="fw-bold mt-4 mb-3">1. Eco-Design</h4>
+                        <p class="text-muted small mb-0">
+                            Start with sustainable sourcing. Use the passport to log recycled materials, track carbon footprints during manufacturing, and ensure ethical labor practices.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 position-relative z-1">
+                    <div class="p-4 feature-card text-center bg-white h-100" style="border-color: rgba(42, 117, 184, 0.2); transform: scale(1.05); box-shadow: 0 15px 35px rgba(0,0,0,0.08);">
+                        <div class="icon-box mx-auto" style="width: 80px; height: 80px; border-radius: 50%; box-shadow: 0 10px 20px rgba(42, 117, 184, 0.15);">
+                            <i class="bi bi-tools"></i>
+                        </div>
+                        <h4 class="fw-bold mt-4 mb-3">2. Active Use & Repair</h4>
+                        <p class="text-muted small mb-0">
+                            Extend the product's lifespan. Consumers scan the DPP to access official repair manuals, order spare parts, and verify the authenticity of second-hand goods.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 position-relative z-1">
+                    <div class="p-4 feature-card text-center bg-white h-100">
+                        <div class="icon-box mx-auto" style="width: 80px; height: 80px; border-radius: 50%; box-shadow: 0 10px 20px rgba(113, 195, 107, 0.15);">
+                            <i class="bi bi-recycle"></i>
+                        </div>
+                        <h4 class="fw-bold mt-4 mb-3">3. End-of-Life Recovery</h4>
+                        <p class="text-muted small mb-0">
+                            Eliminate waste. Recyclers scan the passport to instantly identify material compositions, separating rare earth metals and bio-plastics safely and efficiently.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-5 pt-4">
+                <div class="col-12">
+                    <div class="bg-light rounded-4 p-4 d-flex flex-column flex-md-row align-items-center justify-content-between border shadow-sm">
+                        <div class="d-flex align-items-center mb-3 mb-md-0">
+                            <i class="bi bi-graph-up-arrow fs-2 me-3 text-gradient"></i>
+                            <div>
+                                <h5 class="fw-bold mb-1">Track Circularity Scores</h5>
+                                <p class="text-muted small mb-0">Continuo automatically calculates repairability and recyclability indexes.</p>
+                            </div>
+                        </div>
+                        <a href="#platform" class="btn btn-outline-dark rounded-pill px-4 fw-medium">View Analytics Dashboard</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="contact" class="py-5 text-center bg-light" style="padding-top: 6rem; padding-bottom: 6rem;">
+        <div class="container">
+            <h2 class="display-5 fw-bold mb-3">Ready to close the loop?</h2>
+            <p class="lead text-muted mb-5 mx-auto" style="max-width: 600px;">
+                Generate your first Digital Product Passport today. Leave your details and our circularity experts will get in touch to set up a personalized sandbox.
+            </p>
+            
+            <!-- Mobile-friendly CTA Form (Updated with email action) -->
+            <form action="mailto:contact@continuo.com" method="POST" enctype="text/plain" class="mx-auto" style="max-width: 550px;">
+                <div class="input-group input-group-lg shadow-sm rounded-pill p-1 bg-white border">
+                    <input type="email" name="user_email" class="form-control border-0 bg-transparent shadow-none ms-2 fs-6" placeholder="Enter your work email address" required />
+                    <button type="submit" class="btn btn-gradient rounded-pill px-4 px-sm-5 fw-bold">Get Started</button>
+                </div>
+            </form>
+            
+            <p class="small text-muted mt-4"><i class="bi bi-lock-fill me-1"></i> No credit card required. Secure processing.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white py-5 border-top">
+        <div class="container text-center text-md-start">
+            <div class="row align-items-center">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <div class="d-flex align-items-center justify-content-center justify-content-md-start mb-2">
+                        <!-- Cloudinary Logo in Footer -->
+                        <img src="https://res.cloudinary.com/hdakk4bs/image/upload/v1786708197/Gemini_Generated_Image_fgdutwfgdutwfgdu-removebg-preview1_l19xz4.png" alt="Continuo Logo" style="height: 40px; width: auto;" class="me-2">
+                    </div>
+                    <p class="text-muted small mb-0 mt-2">Pioneering Digital Product Passports & Circularity.</p>
+                </div>
+                <div class="col-md-4 text-center mb-4 mb-md-0">
+                    <a href="#" class="text-muted me-4 text-decoration-none fs-5 hover-primary"><i class="bi bi-twitter-x"></i></a>
+                    <a href="#" class="text-muted me-4 text-decoration-none fs-5 hover-primary"><i class="bi bi-linkedin"></i></a>
+                    <a href="#" class="text-muted text-decoration-none fs-5 hover-primary"><i class="bi bi-github"></i></a>
+                </div>
+                <div class="col-md-4 text-md-end">
+                    <p class="text-muted small fw-medium mb-0">&copy; 2026 Continuo. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
